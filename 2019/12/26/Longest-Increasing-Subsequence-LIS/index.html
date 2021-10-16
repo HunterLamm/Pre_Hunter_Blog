@@ -20,19 +20,21 @@
     var CONFIG = {"hostname":"hunterlam0x0110.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="Some of my learning note of algorithm and AI will be uploaded.">
+  <meta name="description" content="Longest Increasing Subsequence (LIS) Question: Given a sequence, fin the length of the longest subsequence that all elements in the subsequence is increasing. For example, given a sequence as follow:">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Anouncement">
-<meta property="og:url" content="https://hunterlam0x0110.github.io/2021/09/21/t/index.html">
+<meta property="og:title" content="Longest Increasing Subsequence (LIS)">
+<meta property="og:url" content="https://hunterlam0x0110.github.io/2019/12/26/Longest-Increasing-Subsequence-LIS/index.html">
 <meta property="og:site_name" content="My Blog">
-<meta property="og:description" content="Some of my learning note of algorithm and AI will be uploaded.">
+<meta property="og:description" content="Longest Increasing Subsequence (LIS) Question: Given a sequence, fin the length of the longest subsequence that all elements in the subsequence is increasing. For example, given a sequence as follow:">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-09-21T12:39:36.000Z">
-<meta property="article:modified_time" content="2021-09-21T12:49:21.239Z">
+<meta property="article:published_time" content="2019-12-25T19:23:58.000Z">
+<meta property="article:modified_time" content="2021-10-16T12:58:32.035Z">
 <meta property="article:author" content="Hunter Lam">
+<meta property="article:tag" content="LIS">
+<meta property="article:tag" content="DP">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://hunterlam0x0110.github.io/2021/09/21/t/">
+<link rel="canonical" href="https://hunterlam0x0110.github.io/2019/12/26/Longest-Increasing-Subsequence-LIS/">
 
 
 <script id="page-configurations">
@@ -45,7 +47,7 @@
   };
 </script>
 
-  <title>Anouncement | My Blog</title>
+  <title>Longest Increasing Subsequence (LIS) | My Blog</title>
   
 
 
@@ -185,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://hunterlam0x0110.github.io/2021/09/21/t/">
+    <link itemprop="mainEntityOfPage" href="https://hunterlam0x0110.github.io/2019/12/26/Longest-Increasing-Subsequence-LIS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -198,7 +200,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Anouncement
+          Longest Increasing Subsequence (LIS)
         </h1>
 
         <div class="post-meta">
@@ -207,9 +209,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-09-21 20:39:36 / Modified: 20:49:21" itemprop="dateCreated datePublished" datetime="2021-09-21T20:39:36+08:00">2021-09-21</time>
+              <time title="Created: 2019-12-26 03:23:58" itemprop="dateCreated datePublished" datetime="2019-12-26T03:23:58+08:00">2019-12-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">Algorithm</span></a>
+                </span>
             </span>
 
           
@@ -223,7 +233,27 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Some of my learning note of algorithm and AI will be uploaded.</p>
+        <h1 id="longest-increasing-subsequence-lis">Longest Increasing Subsequence (LIS)</h1>
+<p><strong>Question:</strong> Given a sequence, fin the length of the longest subsequence that all elements in the subsequence is increasing.</p>
+<p>For example, given a sequence as follow:</p>
+<p><span class="math display">\[
+\begin{array}{llllllllllll}
+4 &amp; 10 &amp; 15 &amp; 7 &amp; 5 &amp; 3 &amp; 2 &amp; 8 &amp; 9 &amp; 8 &amp; 15 &amp; 17
+\end{array}
+\]</span></p>
+<p>The answer of this sequence is 6. This subsequence is: 4 7 8 9 15 17.</p>
+<p><strong>Solution:</strong></p>
+<p>Let's think about the brute-force solution. For each elements we have two choices: use it or not. Thus, if we use the brute-force solution the time complexity at least <strong>O(2<sup>n</sup>)</strong>​​​</p>
+<p>Commonly speaking, the size of n will larger than 1000. It is a tremendous amount of calculation for computer. Therefore, we have to find out better way to solve it.</p>
+<p>We are going to use <strong>Dynamic Programming (DP)</strong> to solve this problem.</p>
+<p>The first step is to define this question by a function. Let's set <strong>f(x)</strong> means all collection of subsequence ending with the <strong>x<sub>th</sub></strong> element.</p>
+<p>The second step is to find out a meaning for the function. Each value in the function has its own meaning. In this question we are finding the longest length of subsequence; thus, we can set the meaning for each value of <strong>f(x) </strong>to be <strong>maximum</strong>. <strong>f(x)</strong> represents the longest length of subsequence which is ending with the <strong>x<sub>th</sub></strong> element.</p>
+<p>Next step is to find out how we can solve this function. This is the most important part in DP. Let's assume us have the value of <strong>f(0)</strong> to <strong>f(i-1)</strong>. How can we get the value of <strong>f(i)</strong>? Every subsequence ending with the element that is before <strong>i<sub>th</sub></strong> element and smaller than <strong>i<sub>th</sub></strong> element can add the <strong>i<sub>th</sub></strong> element into the end of subsequence. Hence, we can get the equation as follow:</p>
+<p><span class="math display">\[
+f(i)=\max (f(0), f(1), f(2), \ldots, f(i-1))+1
+\]</span></p>
+<p>The code written in C++ as follow:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> length,<span class="keyword">int</span> nums[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;i;j++)</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt;nums[j])</span><br><span class="line">                f[i] = <span class="built_in">max</span>(f[i],f[j]+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">int</span> rst = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++) rst = <span class="built_in">max</span>(rst,f[i]);</span><br><span class="line">    <span class="keyword">return</span> rst;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -232,6 +262,10 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LIS/" rel="tag"># LIS</a>
+              <a href="/tags/DP/" rel="tag"># DP</a>
+          </div>
 
         
 
@@ -240,7 +274,7 @@
     <div class="post-nav">
       <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2021/09/23/CS188-Chapter-1/" rel="next" title="CS188 Chapter 1">
+    <a href="/2020/09/23/CS188-Chapter-1/" rel="next" title="CS188 Chapter 1">
       CS188 Chapter 1 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -301,6 +335,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#longest-increasing-subsequence-lis"><span class="nav-number">1.</span> <span class="nav-text">Longest Increasing Subsequence (LIS)</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -314,7 +349,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -426,6 +461,59 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
